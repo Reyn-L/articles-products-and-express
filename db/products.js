@@ -1,4 +1,5 @@
 /*jshint esversion: 6*/
+const findsById = require('../utils/utility.js');
 class ProductCollector {
   constructor() {
     this.currentId = 0;
@@ -22,12 +23,19 @@ class ProductCollector {
     return this.collection;
   }
 
-  find(number) {
-    let findId = this.collection.filter((idNum) => {
-      return idNum.id === number.id;
-    });
-    console.log(findId);
+  find() {
+    findsById();
+  }
+
+  edit(product) {
+    findsById();
+
   }
 }
 
 module.exports = ProductCollector;
+    // if(this.collection.indexOf(number.id) > -1) {
+    //   return number.id;
+    // } else {
+    //   return "ID not found";
+    // }
