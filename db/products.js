@@ -1,12 +1,33 @@
 /*jshint esversion: 6*/
-
-class Products {
+class ProductCollector {
   constructor() {
     this.currentId = 0;
-    this.saveProducts = [];
+    this.collection = [];
   }
   add(dataObj) {
-    dataObj.id = ++this.currentId;
-    saveProducts.push(dataObj);
+    let dupCheck = this.collection.every((product) => {
+      return product.name !== dataObj.name;
+    });
+
+    if(dupCheck === true) {
+      Object.assign(dataObj,{id: this.currentId++});
+      this.collection.push(dataObj);
+      return this.collection;
+    } else {
+      return false;
+    }
+  }
+
+  findAll() {
+    return this.collection;
+  }
+
+  find(number) {
+    let findId = this.collection.filter((idNum) => {
+      return idNum.id === number.id;
+    });
+    console.log(findId);
   }
 }
+
+module.exports = ProductCollector;
