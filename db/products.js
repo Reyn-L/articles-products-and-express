@@ -1,5 +1,5 @@
 /*jshint esversion: 6*/
-const findsById = require('../utils/utility.js');
+const findsIndex = require('../utils/utility.js');
 class ProductCollector {
   constructor() {
     this.currentId = 0;
@@ -11,7 +11,7 @@ class ProductCollector {
     });
 
     if(dupCheck === true) {
-      Object.assign(dataObj,{id: this.currentId++});
+       Object.assign(dataObj,{id: this.currentId++});
       this.collection.push(dataObj);
       return this.collection;
     } else {
@@ -23,13 +23,15 @@ class ProductCollector {
     return this.collection;
   }
 
-  find() {
-    findsById();
+  find(id) {
+    let index = findsIndex(id, this.collection);
   }
 
-  edit(product) {
-    findsById();
-
+  edit(id) {
+    let index = findsIndex(id, this.collection);
+    let item = this.collection[index];
+   // console.log(item);
+   return item;
   }
 }
 

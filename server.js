@@ -16,5 +16,5 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use('/products', products);
 
 const server = app.listen(PORT, () => {
-  console.log(`server is running on $(PORT)`);
+  console.log(`server is running on ${PORT}`);
 });

@@ -1,12 +1,9 @@
 /*jshint esversion: 6*/
-function findsById(id, collection) {
-  let findId = collection.findIndex((product,index) => {
-    if(product.id > -1){
-      return index;
-    } else {
-      return "ID not found";
-    }
+function findsIndex(id, collection) {
+  let findId = collection.findIndex((item,index) => {
+    return item.id === Number(id);
   });
+  return findId;
 
 }
-module.exports = findsById;
+module.exports = findsIndex;
