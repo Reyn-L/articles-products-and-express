@@ -3,20 +3,22 @@ const express = require('express');
 const router = express.Router();
 const Products = require('../db/products.js') ;
 const products = new Products();
+let find = {product: products.findAll()};
 
 router.route('/')
 
 .post((req, res) => {
   const addProduct = products.add(req.body);
   if(addProduct){
-    res.redirect('/products');
+    res.redirect('/products/products');
   } else {
     res.redirect('/products/new');
   }
 })
 
 .get((req, res) => {
-  res.render('products/index');
+console.log(find);
+  res.render('products/index',find);
 });
 
 router.get('/new', (req, res) => {
