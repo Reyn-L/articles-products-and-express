@@ -33,11 +33,12 @@ class ProductCollector {
    // console.log(item);
    return item;
   }
+
+  delete(id) {
+    let index = findsIndex(id, this.collection);
+    let newProducts = this.collection.splice(index, 1);
+    return newProducts;
+  }
 }
 
 module.exports = ProductCollector;
-    // if(this.collection.indexOf(number.id) > -1) {
-    //   return number.id;
-    // } else {
-    //   return "ID not found";
-    // }

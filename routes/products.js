@@ -4,32 +4,54 @@ const router = express.Router();
 const Products = require('../db/products.js') ;
 const products = new Products();
 
+router.route('/')
 
-router.post('/', (req, res) => {
-  if(products.add(req.body)) {
-    res.render('products');
+.post((req, res) => {
+  const addProduct = products.add(req.body);
+  if(addProduct){
+    res.redirect('/products');
   } else {
     res.redirect('/products/new');
   }
+})
+
+.get((req, res) => {
+  res.render('products/index');
 });
 
-router.post('/new', (req, res) => {
-  res.render('/products/new');
+router.get('/new', (req, res) => {
+  res.render('products/new');
 });
 
-router.get('/', (req, res) => {
-res.send(products.findAll());
+router.get('/:id/edit', (req, res) => {
+  res.render('products/edit');
 });
 
-router.put('/:id', (req, res) => {
-// console.log(req.params.id);
-let update = products.edit(req.params.id);
-update.name = req.body.name;
-update.price = req.body.price;
-update.inventory = req.body.inventory;
-res.send(200);
-// console.log(req.body);
-// res.render('products/:id');
+router.route('/:id')
+
+.get((req, res) => {
+  res.render('products/products');
+})
+
+.put((req, res) => {
+  const update = products.edit(req.params.id);
+  if(update){
+    update.name = req.body.name;
+    update.price = req.body.price;
+    update.inventory = req.body.inventory;
+    res.redirect('/products/:id');
+  } else {
+    res.redirect('/products/:id/edit');
+  }
+})
+
+.delete((req, res) => {
+  const deleteProduct = products.delete(req.params.id);
+  if(deleteProduct) {
+    res.redirect('/products');
+  } else {
+    res.redirect('/products/:id');
+  }
 });
 
 module.exports = router;
