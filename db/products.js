@@ -29,8 +29,6 @@ class ProductCollector {
 
   edit(id) {
     let index = findsIndex(id, this.collection);
-    let item = this.collection[index];
-   // console.log(item);
    return item;
   }
 
