@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Products = require('../db/products.js') ;
+const db = require('../connect.js');
 const products = new Products();
 let find = {product: products.findAll()};
 
@@ -17,8 +18,12 @@ router.route('/')
 })
 
 .get((req, res) => {
-console.log(find);
-  res.render('products/index',find);
+  console.log("hello");
+  db.any('SELECT * FROM products')
+  .then((products) => {
+    console.log(products);
+    res.render('products/index',find);
+  });
 });
 
 router.get('/new', (req, res) => {

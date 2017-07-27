@@ -1,12 +1,12 @@
 \c reyn
 
-DROP DATABASE IF EXISTS products_db;
-DROP USER IF EXISTS products_user;
+DROP DATABASE IF EXISTS articles_products;
+DROP USER IF EXISTS proart_user;
 
-CREATE USER products_user;
-CREATE DATABASE products_db WITH OWNER products_user;
+CREATE USER proart_user WITH LOGIN PASSWORD 'password';
+CREATE DATABASE articles_products WITH OWNER proart_user;
 
-\c products_db;
+\c articles_products;
 
 CREATE TABLE products (
   id SERIAL NOT NULL PRIMARY KEY,
@@ -27,3 +27,7 @@ CREATE TABLE articles (
   url TEXT,
   author_id INT REFERENCES authors(id)
 );
+
+ALTER TABLE products OWNER TO proart_user;
+ALTER TABLE authors OWNER TO proart_user;
+ALTER TABLE articles OWNER TO proart_user;
