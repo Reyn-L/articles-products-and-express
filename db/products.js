@@ -1,5 +1,4 @@
 /*jshint esversion: 6*/
-const db = require('../connect.js');
 class ProductCollector {
   constructor() {
     this.currentId = 0;

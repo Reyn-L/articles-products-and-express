@@ -9,16 +9,22 @@ let find = {product: products.findAll()};
 router.route('/')
 
 .post((req, res) => {
-  const addProduct = products.add(req.body);
-  if(addProduct){
+  db.any(
+    'INSERT INTO products(name, price, inventory) VALUES($1, $2, $3)',
+    [req.body.name, req.body.price, req.body.inventory]
+  )
+  .then((products) => {
     res.redirect('/products/products');
-  } else {
+
+  })
+  .catch((err) => {
+    console.log(err);
     res.redirect('/products/new');
-  }
+  });
+
 })
 
 .get((req, res) => {
-  console.log("hello");
   db.any('SELECT * FROM products')
   .then((products) => {
     console.log(products);
@@ -53,12 +59,12 @@ router.route('/:id')
 })
 
 .delete((req, res) => {
-  const deleteProduct = products.delete(req.params.id);
-  if(deleteProduct) {
-    res.redirect('/products');
-  } else {
-    res.redirect('/products/:id');
-  }
+  // const deleteProduct = products.delete(req.params.id);
+  // if(deleteProduct) {
+  //   res.redirect('/products');
+  // } else {
+  //   res.redirect('/products/:id');
+  // }
 });
 
 module.exports = router;

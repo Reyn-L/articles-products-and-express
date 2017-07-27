@@ -10,7 +10,7 @@ CREATE DATABASE articles_products WITH OWNER proart_user;
 
 CREATE TABLE products (
   id SERIAL NOT NULL PRIMARY KEY,
-  name VARCHAR(100),
+  name VARCHAR(100) UNIQUE,
   price MONEY,
   inventory INT
 );
@@ -22,7 +22,7 @@ CREATE TABLE authors (
 
 CREATE TABLE articles (
   id SERIAL NOT NULL PRIMARY KEY,
-  title VARCHAR(100),
+  title VARCHAR(100) UNIQUE,
   body VARCHAR(255),
   url TEXT,
   author_id INT REFERENCES authors(id)
