@@ -12,7 +12,7 @@ router.route('/')
   db.any(
     'INSERT INTO products(name, price, inventory) VALUES($1, $2, $3)',
     [req.body.name, req.body.price, req.body.inventory]
-  )
+    )
   .then((products) => {
     res.redirect('/products/products');
 
@@ -59,11 +59,20 @@ router.route('/:id')
 })
 
 .delete((req, res) => {
+  console.log(req.params.id);
+  db.any('DELETE FROM products WHERE id = $1', [Number(req.params.id)])
+  .then((products) => {
+    res.redirect('/products');
+  })
+  .catch((err) => {
+    console.log(err);
+    res.redirect('/products:id');
+  });
+
+
   // const deleteProduct = products.delete(req.params.id);
   // if(deleteProduct) {
-  //   res.redirect('/products');
   // } else {
-  //   res.redirect('/products/:id');
   // }
 });
 
