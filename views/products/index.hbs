@@ -1,11 +1,10 @@
-<h1> index.hbs </h1>
-
+<h1>Products </h1>
 <div class="products">
   {{#each products}}
     <div>
-      <span>{{name}}</span>
-      <span>{{price}}</span>
-      <span>{{inventory}}</span>
+      <span><b> Product:</b> {{name}}</span>
+      <span><b> Price:</b> {{price}}</span>
+      <span><b> Inventory:</b> {{inventory}}</span>
     </div>
   {{/each}}
 </div>
