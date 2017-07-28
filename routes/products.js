@@ -32,7 +32,11 @@ router.get('/new', (req, res) => {
 });
 
 router.get('/:id/edit', (req, res) => {
-  res.render('products/edit');
+  db.any('SELECT * FROM products WHERE id = $1', Number([req.params.id]))
+  .then((products) => {
+    console.log(products);
+    res.render('products/edit', products[0]);
+  });
 });
 
 
@@ -43,7 +47,7 @@ router.route('/:id')
     'SELECT name, price, inventory FROM products WHERE id = $1',
     Number([req.params.id]))
   .then((products) => {
-    res.render('products/index', {products:products});
+    res.render('products/product', products[0]);
   })
   .catch((err) => {
     console.log(err);

@@ -1,1 +1,14 @@
 <h1> edit </h1>
+<form action="/products/{{id}}?_method=PUT" method='POST'>
+  <input type="text" name='name' placeholder="name" value="{{name}}">
+  <input type="text" name="price" placeholder="price" value="{{price}}">
+  <input type="text" name="inventory" placeholder="inventory" value="{{inventory}}">
+  <button type='submit'>submit</button>
+</form>
+{{!-- <div class="products">
+  {{#each products}}
+  <span>{{name}}</span>
+  <span>{{price}}</span>
+  <span>{{inventory}}</span>
+  {{/each}}
+</div> --}}
