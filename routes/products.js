@@ -28,7 +28,6 @@ router.route('/')
 .get((req, res) => {
   db.any('SELECT * FROM products')
   .then((products) => {
-    //console.log(products);
     res.render('products/index');
   });
 });
@@ -48,7 +47,6 @@ router.route('/:id')
     'SELECT name, price, inventory FROM products WHERE id = $1',
     Number([req.params.id]))
   .then((products) => {
-    console.log(products);
     res.render('products/index');
   })
   .catch((err) => {
@@ -57,7 +55,6 @@ router.route('/:id')
 })
 
 .put((req, res) => {
-  console.log("put",req.body);
   db.any('UPDATE products SET name = $1, price = $2, inventory = $3 WHERE id = $4',
     [req.body.name, req.body.price, Number(req.body.inventory), req.params.id])
   .then((products) => {
@@ -65,8 +62,8 @@ router.route('/:id')
     res.redirect('/products/' + req.params.id);
   })
   .catch((err) => {
-    console.log("its me", err);
-    res.redirect('/products/:id/edit');
+    console.log(err);
+    res.redirect('/products/' + req.params.id + '/edit');
   });
   // const update = products.edit(req.params.id);
   // if(update){
@@ -78,7 +75,6 @@ router.route('/:id')
 })
 
 .delete((req, res) => {
-  console.log(req.params.id);
   db.any('DELETE FROM products WHERE id = $1', [req.params.id])
   .then((products) => {
     res.redirect('/products');
@@ -87,12 +83,6 @@ router.route('/:id')
     console.log(err);
     res.redirect('/products:id');
   });
-
-
-  // const deleteProduct = products.delete(req.params.id);
-  // if(deleteProduct) {
-  // } else {
-  // }
 });
 
 module.exports = router;
