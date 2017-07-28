@@ -1,10 +1,7 @@
 /*jshint esversion: 6*/
 const express = require('express');
 const router = express.Router();
-const Products = require('../db/products.js') ;
 const db = require('../connect.js');
-const products = new Products();
-let find = {product: products.findAll()};
 
 router.route('/')
 
@@ -16,19 +13,17 @@ router.route('/')
     )
   .then((products) => {
     res.redirect('/products');
-
   })
   .catch((err) => {
     console.log(err);
     res.redirect('/products/new');
   });
-
 })
-
 .get((req, res) => {
   db.any('SELECT * FROM products')
   .then((products) => {
-    res.render('products/index');
+    res.render('products/index', {products: products});
+
   });
 });
 
@@ -40,6 +35,7 @@ router.get('/:id/edit', (req, res) => {
   res.render('products/edit');
 });
 
+
 router.route('/:id')
 
 .get((req, res) => {
@@ -47,7 +43,7 @@ router.route('/:id')
     'SELECT name, price, inventory FROM products WHERE id = $1',
     Number([req.params.id]))
   .then((products) => {
-    res.render('products/index');
+    res.render('products/index', {products:products});
   })
   .catch((err) => {
     console.log(err);
@@ -65,15 +61,7 @@ router.route('/:id')
     console.log(err);
     res.redirect('/products/' + req.params.id + '/edit');
   });
-  // const update = products.edit(req.params.id);
-  // if(update){
-  //   update.name = req.body.name;
-  //   update.price = req.body.price;
-  //   update.inventory = req.body.inventory;
-  // } else {
-  // }
 })
-
 .delete((req, res) => {
   db.any('DELETE FROM products WHERE id = $1', [req.params.id])
   .then((products) => {
