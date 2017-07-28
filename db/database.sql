@@ -11,7 +11,7 @@ CREATE DATABASE articles_products WITH OWNER proart_user;
 CREATE TABLE products (
   id SERIAL NOT NULL PRIMARY KEY,
   name VARCHAR(100) UNIQUE,
-  price MONEY,
+  price NUMERIC,
   inventory INT
 );
 

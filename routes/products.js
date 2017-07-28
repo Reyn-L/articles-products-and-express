@@ -9,12 +9,13 @@ let find = {product: products.findAll()};
 router.route('/')
 
 .post((req, res) => {
+
   db.any(
     'INSERT INTO products(name, price, inventory) VALUES($1, $2, $3)',
-    [req.body.name, req.body.price, req.body.inventory]
+    [req.body.name, Number(req.body.price), Number(req.body.inventory)]
     )
   .then((products) => {
-    res.redirect('/products/products');
+    res.redirect('/products');
 
   })
   .catch((err) => {
@@ -27,8 +28,8 @@ router.route('/')
 .get((req, res) => {
   db.any('SELECT * FROM products')
   .then((products) => {
-    console.log(products);
-    res.render('products/index',find);
+    //console.log(products);
+    res.render('products/index');
   });
 });
 
@@ -43,24 +44,42 @@ router.get('/:id/edit', (req, res) => {
 router.route('/:id')
 
 .get((req, res) => {
-  res.render('products/products');
+  db.any(
+    'SELECT name, price, inventory FROM products WHERE id = $1',
+    Number([req.params.id]))
+  .then((products) => {
+    console.log(products);
+    res.render('products/index');
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 })
 
 .put((req, res) => {
-  const update = products.edit(req.params.id);
-  if(update){
-    update.name = req.body.name;
-    update.price = req.body.price;
-    update.inventory = req.body.inventory;
-    res.redirect('/products/:id');
-  } else {
+  console.log("put",req.body);
+  db.any('UPDATE products SET name = $1, price = $2, inventory = $3 WHERE id = $4',
+    [req.body.name, req.body.price, Number(req.body.inventory), req.params.id])
+  .then((products) => {
+
+    res.redirect('/products/' + req.params.id);
+  })
+  .catch((err) => {
+    console.log("its me", err);
     res.redirect('/products/:id/edit');
-  }
+  });
+  // const update = products.edit(req.params.id);
+  // if(update){
+  //   update.name = req.body.name;
+  //   update.price = req.body.price;
+  //   update.inventory = req.body.inventory;
+  // } else {
+  // }
 })
 
 .delete((req, res) => {
   console.log(req.params.id);
-  db.any('DELETE FROM products WHERE id = $1', [Number(req.params.id)])
+  db.any('DELETE FROM products WHERE id = $1', [req.params.id])
   .then((products) => {
     res.redirect('/products');
   })
