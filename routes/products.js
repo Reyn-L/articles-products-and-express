@@ -34,7 +34,6 @@ router.get('/new', (req, res) => {
 router.get('/:id/edit', (req, res) => {
   db.any('SELECT * FROM products WHERE id = $1', Number([req.params.id]))
   .then((products) => {
-    console.log(products);
     res.render('products/edit', products[0]);
   });
 });
@@ -69,6 +68,7 @@ router.route('/:id')
 .delete((req, res) => {
   db.any('DELETE FROM products WHERE id = $1', [req.params.id])
   .then((products) => {
+    console.log(products);
     res.redirect('/products');
   })
   .catch((err) => {

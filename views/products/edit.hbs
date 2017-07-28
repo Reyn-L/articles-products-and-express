@@ -5,10 +5,7 @@
   <input type="text" name="inventory" placeholder="inventory" value="{{inventory}}">
   <button type='submit'>submit</button>
 </form>
-{{!-- <div class="products">
-  {{#each products}}
-  <span>{{name}}</span>
-  <span>{{price}}</span>
-  <span>{{inventory}}</span>
-  {{/each}}
-</div> --}}
+<form action="/products/{{id}}?_method=DELETE" method='POST'>
+  <button type='submit'>delete</button>
+</form>
+
